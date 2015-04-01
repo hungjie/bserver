@@ -1,0 +1,90 @@
+#ifndef PEER_HANDLE_MAP_H
+#define PEER_HANDLE_MAP_H
+
+#include <string>
+#include <map>
+
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/serialization/singleton.hpp>
+
+#include "session_base.h"
+
+namespace push_logic
+{
+
+class peer_handle_map
+{
+public:
+    peer_handle_map();
+    virtual ~peer_handle_map();
+
+    virtual std::string set(std::string const& id, boost::shared_ptr<session_base> session_ptr);
+    virtual boost::shared_ptr<session_base> get(std::string const& id);
+    virtual void erase(std::string const& id);
+
+    std::map< std::string, boost::shared_ptr<session_base> > m() const
+    {
+        return this->map_;
+    }
+
+    void clean()
+    {
+        this->map_.clear();
+    }
+
+protected:
+    int find_matched(std::string const& id);
+
+    int random_num(int count)
+    {
+        if(count == 0)
+            return 0;
+
+        return rand() % count;
+    }
+
+    boost::mutex mutex_;
+    std::map< std::string, boost::shared_ptr<session_base> > map_;
+
+    static boost::shared_ptr<session_base> null_session_ptr_;
+
+private:
+};
+
+class peer_handle_map_for_server : public peer_handle_map
+{
+public:
+    peer_handle_map_for_server() {}
+    ~peer_handle_map_for_server() {}
+};
+
+typedef boost::serialization::singleton<peer_handle_map_for_server> __PEER_MAP;
+
+class peer_handle_map_for_client : public peer_handle_map
+{
+public:
+    peer_handle_map_for_client() {}
+    ~peer_handle_map_for_client() {}
+
+    boost::shared_ptr<session_base> fix_get(std::string const& id);
+    boost::shared_ptr<session_base> simple_get(std::string const& id);
+
+    virtual std::string set(std::string const& id, boost::shared_ptr<session_base> session_ptr);
+    virtual int fix_set(std::string const& server_id, std::string const& id, boost::shared_ptr<session_base> session_ptr);
+
+    virtual boost::shared_ptr<session_base> get(std::string const& id);
+    virtual void erase(std::string const& id);
+    virtual void erase(std::string const& server_id, std::string const& id);
+
+    void close_all();
+
+private:
+    std::map< std::string, std::vector<std::string> > client_list_;
+};
+
+typedef boost::serialization::singleton<peer_handle_map_for_client> __PEER_MAP_CLIENT;
+
+}
+
+#endif // PEER_HANDLE_MAP_H

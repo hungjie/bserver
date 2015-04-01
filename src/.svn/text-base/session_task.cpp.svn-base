@@ -1,0 +1,256 @@
+#include "session_task.h"
+
+#include <exception>
+
+#include <boost/thread.hpp>
+#include <boost/make_shared.hpp>
+
+#include "task_responser.h"
+#include "service_responser.h"
+#include "push_responser.h"
+#include "json_push_responser.h"
+
+#include "service_response_responser.h"
+#include "register_response_responser.h"
+
+#include "wp_push_responser.h"
+
+#include "peer_handle_map.h"
+
+namespace push_logic
+{
+
+session_task::session_task()
+{
+    count_ = 1;
+    stop_ = false;
+}
+
+session_task::~session_task()
+{
+
+}
+
+void redis_log(std::string const& log)
+{
+    //std::cout << log << std::endl;
+    REDISLOG(log);
+}
+
+void session_task::init_cache_map()
+{
+    /*
+    meet_you::sess_cache* sess_cache = new meet_you::sess_cache();
+
+    if (sess_cache->init(__CONFIGWRAP::get_mutable_instance().get_urls(), __CONFIGWRAP::get_mutable_instance().get_bak_dburls()) != 0)
+    {
+        PUSHLOG_ERROR("session cache init error");
+        return ;
+    }
+
+    sess_chache_.reset(sess_cache);
+    */
+
+    meet_you::SessCache* sess_cache = new meet_you::SessCache();
+    if(sess_cache->init(&__CONFIGWRAP::get_mutable_instance().zk(), __CONFIGWRAP::get_const_instance().session_path(), __CONFIGWRAP::get_const_instance().session_path_bak()) != 0)
+    {
+        PUSHLOG_ERROR("zookeeper session init error");
+        return ;
+    }
+
+    sess_cache_.reset(sess_cache);
+/*
+    meet_you::cache_group_new* message_cache = new meet_you::cache_group_new();
+    if (message_cache->init(__CONFIGWRAP::get_mutable_instance().get_message_box_urls()) != 0)
+    {
+        PUSHLOG_ERROR("message cache init error");
+        return ;
+    }
+
+    message_cache->set_cmdlog(redis_log);
+//    message_cache->set_retrys(3);
+    message_cache_.reset(message_cache);
+*/
+
+    meet_you::DBGroup * db_group = new meet_you::DBGroup();
+    if(db_group->init(&__CONFIGWRAP::get_mutable_instance().zk(), __CONFIGWRAP::get_const_instance().db_group_path()) != 0)
+    {
+        PUSHLOG_ERROR("zookeeper DBGroup init error");
+        return ;
+    }
+
+    db_group->setDBLogCB(redis_log);
+    db_group_.reset(db_group);
+}
+
+void session_task::push(message_format const& mf)
+{
+    boost::mutex::scoped_lock lock(mutex_);
+    this->deque_.push_back(mf);
+    lock.unlock();
+    condition_.notify_one();
+}
+
+void session_task::notifiy_all()
+{
+    condition_.notify_all();
+}
+
+bool session_task::try_pop(std::string & data, meet_you::head & h, std::string & id)
+{
+    boost::mutex::scoped_lock lock(mutex_);
+
+    if(this->deque_.empty())
+    {
+        return false;
+    }
+
+    data.assign(this->deque_.front().body().data(), this->deque_.front().body().data() + this->deque_.front().body_length());
+    h = this->deque_.front().meet_head();
+    id = this->deque_.front().remote_id();
+
+    this->deque_.pop_front();
+
+    return true;
+}
+
+void session_task::wait_and_pop(std::string & data, meet_you::head & h, std::string & id)
+{
+    boost::mutex::scoped_lock lock(mutex_);
+
+    while(deque_.empty() && !stop_)
+    {
+        //boost::this_thread::interruption_point();
+        condition_.wait(lock);
+        //boost::this_thread::interruption_point();
+    }
+
+    if(stop_)
+    {
+        throw std::runtime_error("stop thread!");
+    }
+
+    data.assign(deque_.front().body().data(), deque_.front().body().data() + deque_.front().body_length());
+    h = deque_.front().meet_head();
+    id = deque_.front().remote_id();
+
+    this->deque_.pop_front();
+}
+
+void session_task::work()
+{
+    this->init_cache_map();
+
+    try
+    {
+        while(1 && !stop_)
+        {
+            boost::this_thread::interruption_point();
+
+            std::string data;
+            meet_you::head h;
+            std::string id;
+
+            if(!this->try_pop(data, h, id))
+            {
+                this->wait_and_pop(data, h, id);
+            }
+
+            this->do_work(id, h, data);
+        }
+    }
+    catch(std::exception const& e)
+    {
+        PUSHLOG_ERROR( e.what() );
+    }
+    catch(...)
+    {
+        PUSHLOG_ERROR( "unkonwn error task" );
+    }
+}
+
+void session_task::do_work(std::string const& id, meet_you::head const& h, const std::string & data)
+{
+    PUSHLOG_TRACE("do work");
+
+    boost::shared_ptr<task_responser> responser;
+    {
+        boost::mutex::scoped_lock lock(this->mutex_count_);
+        std::stringstream scout;
+        scout << "recv count:" << count_++;
+        PUSHLOG_TRACE(scout.str());
+    }
+
+    if(h.cmd == 200)
+    {
+        PUSHLOG_INFO("start service_responser");
+        responser = boost::make_shared<service_responser>();
+    }
+    else if(h.cmd == 201)
+    {
+        PUSHLOG_INFO("start service_response_responser");
+        responser = boost::make_shared<service_response_responser>();
+    }
+    else if(h.cmd == 301)
+    {
+        PUSHLOG_INFO("start register_response_responser");
+        responser = boost::make_shared<register_response_responser>();
+    }
+    else if(h.cmd == 9999)
+    {
+        PUSHLOG_INFO("start json_push_responser");
+        responser = boost::make_shared<json_push_responser>();
+    }
+    else if(h.cmd == 8889)
+    {
+        PUSHLOG_INFO("xxxxxxtestxxxxxx");
+        responser = boost::make_shared<task_responser>();
+        responser->response(id, h, data);
+/*
+        char* p = NULL;
+        strcpy(p, "dump");
+//*/
+        return;
+    }
+    else if(h.cmd == 8888)
+    {
+        PUSHLOG_INFO("start test_mutiple_response");
+        responser = boost::make_shared<task_responser>();
+        responser->response(id, h, data);
+        responser->response(id, h, data);
+        responser->response(id, h, data);
+        responser->response(id, h, data);
+    }
+    else if(h.cmd == 10001)
+    {
+        PUSHLOG_INFO("start wp push response");
+        responser = boost::make_shared<wp_push_responser>();
+        return;
+    }
+    else if(h.cmd == 0)
+    {
+        responser = boost::make_shared<task_responser>();
+        responser->response(id, h, data);
+        return;
+    }
+    else
+    {
+        return;
+    }
+
+    try
+    {
+        std::string r_data = responser->parser(data);
+        responser->response(id, h, r_data);
+    }
+    catch(std::exception const& e)
+    {
+        PUSHLOG_ERROR( e.what() );
+    }
+    catch(...)
+    {
+        PUSHLOG_ERROR( "unkonwn error dotask" );
+    }
+}
+
+}

@@ -1,0 +1,66 @@
+#include "push_response_responser.h"
+
+#include "log.h"
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+#include "session_task.h"
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+push_response_responser::push_response_responser()
+{
+    //ctor
+}
+
+push_response_responser::~push_response_responser()
+{
+    //dtor
+}
+
+std::string push_response_responser::parser(std::string const& data)
+{
+    PushPacket r_pp;
+    if( r_pp.ParseFromString( data ) )
+    {
+        PUSHLOG_INFO("get payload from service response");
+
+        if(r_pp.type() == 11 || r_pp.type() == 10)
+        {
+            PushResponse prp = r_pp.push_resp();
+
+            std::stringstream ss;
+            std::stringstream ss_type;
+            std::stringstream ss_msgid;
+            ss_msgid << "msgid:" << prp.msgid();
+            ss_type << "type:" << prp.type();
+            ss << "get push response : " << RFORMATE("cid:" + prp.cid()) << RFORMATE(ss_type.str()) << RFORMATE(ss_msgid.str());
+
+            __SESSION_TASK::get_mutable_instance().mb_del_msg(prp.cid() + "__" + prp.type(), prp.msgid());
+
+            PUSHLOG_INFO(ss.str());
+        }
+    }
+    else
+    {
+        PUSHLOG_ERROR("parse pushpacket error when responser");
+    }
+
+    return "";
+}
+
+void push_response_responser::after_parser(meet_you::ServiceResponse& srp)
+{
+
+}
+
+int push_response_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    return 0;
+}
+
+}

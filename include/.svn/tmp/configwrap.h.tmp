@@ -1,0 +1,47 @@
+#ifndef CONFIGWRAP_H
+#define CONFIGWRAP_H
+
+#include <string>
+
+#include <boost/serialization/singleton.hpp>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+
+#include <boost/filesystem.hpp>
+
+#include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
+
+#include "cli_session.h"
+
+namespace push_logic
+{
+
+class configwrap
+{
+    public:
+        configwrap();
+        virtual ~configwrap();
+
+        int init(boost::filesystem::path const& path);
+
+        meet_you::sess_cache sess_cache_;
+
+        std::string get_server_id(std::string const& sid)
+        {
+            return this->server_map_[sid];
+        }
+
+    protected:
+        std::string get(std::string const& path);
+
+    private:
+        boost::property_tree::ptree pt_;
+        std::map<std::string, std::string> server_map_;
+};
+
+typedef boost::serialization::singleton<configwrap> __CONFIGWRAP;
+
+}
+#endif // CONFIGWRAP_H

@@ -1,0 +1,29 @@
+#ifndef HEART_TASK_THREAD_H
+#define HEART_TASK_THREAD_H
+
+#include <string>
+
+#include <boost/thread/mutex.hpp>
+#include <boost/serialization/singleton.hpp>
+
+#include "message_format.h"
+#include "peer_handle_map.h"
+
+namespace push_logic
+{
+
+class heart_task_thread
+{
+    public:
+        heart_task_thread();
+        virtual ~heart_task_thread();
+
+        void work();
+    private:
+        boost::mutex mutex_;
+};
+
+typedef boost::serialization::singleton<heart_task_thread> __HEART_TASK;
+
+}
+#endif // HEART_TASK_THREAD_H

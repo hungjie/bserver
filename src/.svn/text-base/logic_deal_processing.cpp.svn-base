@@ -1,0 +1,43 @@
+#include "logic_deal_processing.h"
+
+#include "session_task.h"
+
+#include "log.h"
+
+namespace push_logic
+{
+
+logic_deal_processing::logic_deal_processing()
+{
+}
+
+logic_deal_processing::~logic_deal_processing()
+{
+}
+
+void logic_deal_processing::after_header_get(meet_you::head const& h, message_format const& message) const
+{
+
+}
+
+void logic_deal_processing::after_body_get(message_format const& message) const
+{
+    if(message.meet_head().cmd == 1)
+    {
+        return ;
+    }
+
+    __SESSION_TASK::get_mutable_instance().push(message);
+}
+
+void server_logic_processing::after_body_get(message_format const& message) const
+{
+    logic_deal_processing::after_body_get(message);
+}
+
+void client_logic_processing::after_body_get(message_format const& message) const
+{
+    logic_deal_processing::after_body_get(message);
+}
+
+}

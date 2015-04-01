@@ -1,0 +1,30 @@
+#ifndef PUSH_RESPONSE_H
+#define PUSH_RESPONSE_H
+
+#include "task_responser.h"
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+namespace push_logic
+{
+
+class push_responser : public task_responser
+{
+    public:
+        push_responser();
+        virtual ~push_responser();
+
+        virtual std::string parser(std::string const& data);
+        virtual int response(std::string const& id, meet_you::head const& h, std::string const& data);
+
+        void after_parser(meet_you::ServiceRequest& srp);
+    protected:
+    private:
+        void init_cache_message(std::string const& type, std::string const& cid, int64_t start_msg_id, int expect_size, meet_you::PushCacheResponse* pcrp);
+        std::string cid_;
+};
+
+}
+
+#endif // PUSH_RESPONSE_H

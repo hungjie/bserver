@@ -1,0 +1,45 @@
+#include "register_response_responser.h"
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+#include "log.h"
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+
+register_response_responser::register_response_responser()
+{
+    //ctor
+}
+
+register_response_responser::~register_response_responser()
+{
+    //dtor
+}
+
+std::string register_response_responser::parser(std::string const& data)
+{
+    SvRegResponse srr;
+
+    if(srr.ParseFromString(data))
+    {
+        std::stringstream ss;
+        ss << srr.status();
+
+        PUSHLOG_INFO(ss.str());
+    }
+
+    return "";
+}
+
+int register_response_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    return 0;
+}
+
+
+}

@@ -1,0 +1,60 @@
+#include "log.h"
+
+#include<unistd.h>
+
+using namespace log4cplus;
+using namespace log4cplus::helpers;
+
+namespace push_logic
+{
+
+void push_log::set_path(std::string const& path)
+{
+    boost::filesystem::path p(path);
+
+    if(!boost::filesystem::exists(p))
+    {
+        boost::filesystem::create_directories(p);
+    }
+
+    #ifdef KAFKAVERSION
+    _append = SharedAppenderPtr(new DailyRollingFileAppender(path + "/kafka_push_logic.log", HOURLY, true, 100));
+    #else
+    _append = SharedAppenderPtr(new DailyRollingFileAppender(path + "/push_logic.log", HOURLY, true, 100));
+    #endif
+    _append2 = SharedAppenderPtr(new DailyRollingFileAppender(path + "/redis_log.log", DAILY, true, 10));
+    _append3 = SharedAppenderPtr(new DailyRollingFileAppender(path + "/zookeeper_log.log", DAILY, true, 10));
+
+    //_append = SharedAppenderPtr(new RollingFileAppender(path + "/push_logic.log", 100*1024*1024, 500));
+    _append->setName("file push log");
+
+    std::stringstream pattern;
+    pattern << "[%D{%m/%d/%y %H:%M:%S:%q}] [" << getpid() << "] [THREAD=%t] [push_logic_server] [%p] [%l] [%m]%n";
+    _layout = std::auto_ptr<Layout>(new PatternLayout(pattern.str()));
+    _layout2 = std::auto_ptr<Layout>(new PatternLayout(pattern.str()));
+    _layout3 = std::auto_ptr<Layout>(new PatternLayout(pattern.str()));
+
+    _append->setLayout( _layout );
+    _append2->setLayout( _layout2 );
+    _append3->setLayout( _layout3 );
+
+    system_logger = Logger::getInstance("system");
+    system_logger.addAppender(_append);
+    system_logger.setLogLevel(ALL_LOG_LEVEL);
+
+    //redis_logger = Logger::getInstance("redis");
+
+    //Logger::getRoot().addAppender(_append);
+    //Logger root = Logger::getRoot();
+    redis_logger = Logger::getInstance("redis");
+    redis_logger.addAppender(_append2);
+    redis_logger.setLogLevel(ALL_LOG_LEVEL);
+    //Logger subTest = Logger::getInstance("test.subtest");
+    //Logger::getRoot().setLogLevel(ALL_LOG_LEVEL);
+
+    zookeeper_logger = Logger::getInstance("zookeeper");
+    zookeeper_logger.addAppender(_append3);
+    zookeeper_logger.setLogLevel(ALL_LOG_LEVEL);
+}
+
+}

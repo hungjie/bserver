@@ -1,0 +1,47 @@
+#ifndef LOGIC_DEAL_PROCESSING_H
+#define LOGIC_DEAL_PROCESSING_H
+
+#include "message_format.h"
+
+#include <boost/serialization/singleton.hpp>
+
+namespace push_logic
+{
+
+class logic_deal_processing
+{
+public:
+    virtual ~logic_deal_processing();
+
+    virtual void after_header_get(meet_you::head const& h, message_format const& message) const ;
+    virtual void after_body_get(message_format const& message) const ;
+
+    virtual void do_work(std::string const& id, meet_you::head const& h, const std::string & data) const;
+protected:
+    logic_deal_processing();
+private:
+};
+
+class server_logic_processing : public logic_deal_processing
+{
+public:
+    server_logic_processing(){}
+    ~server_logic_processing(){}
+    virtual void after_body_get(message_format const& message) const ;
+};
+
+typedef boost::serialization::singleton<server_logic_processing> _SERVER_LOGIC_PROCESSING;
+
+class client_logic_processing : public logic_deal_processing
+{
+public:
+    client_logic_processing(){}
+    ~client_logic_processing(){}
+    virtual void after_body_get(message_format const& message) const ;
+};
+
+typedef boost::serialization::singleton<client_logic_processing> _CLIENT_LOGIC_PROCESSING;
+
+}
+
+#endif // LOGIC_DEAL_PROCESSING_H

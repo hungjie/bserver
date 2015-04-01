@@ -1,0 +1,36 @@
+#ifndef CLIENT_SESSION_H
+#define CLIENT_SESSION_H
+
+#include "session_base.h"
+
+namespace push_logic
+{
+
+class client_session : public session_base
+{
+public:
+    client_session(boost::asio::io_service& io_service, bool is_auto_reconnect = false);
+    virtual ~client_session();
+
+    virtual int handle_connect_fix_id(boost::system::error_code const& error
+                                      , std::string const& server_id
+                                      , std::string const& remote_id);
+
+protected:
+    int open();
+
+    int on_close();
+
+    virtual int do_head();
+    virtual int do_body();
+
+private:
+    std::string server_id_;
+    bool fix_connect_;
+    bool is_auto_reconnect_;
+};
+
+typedef boost::shared_ptr<client_session> client_session_ptr;
+
+}
+#endif // CLIENT_SESSION_H

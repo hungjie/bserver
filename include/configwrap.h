@@ -1,0 +1,223 @@
+#ifndef CONFIGWRAP_H
+#define CONFIGWRAP_H
+
+#include <string>
+#include <vector>
+
+#include <boost/serialization/singleton.hpp>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+
+#include <boost/filesystem.hpp>
+
+#include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/thread/mutex.hpp>
+
+#include "cli_session.h"
+#include "servlist_cache.h"
+#include "session_cache.h"
+#include "config_cache.h"
+
+#include "zk_client.h"
+
+namespace push_logic
+{
+
+class configwrap
+{
+public:
+    configwrap();
+    virtual ~configwrap();
+
+    int init(boost::filesystem::path const& path);
+
+    void init_server_connection();
+    int servlist_callback(int type);
+
+    std::string get_server_id(int sid)
+    {
+        return this->server_map_[sid];
+    }
+
+    int port() const
+    {
+        return this->port_;
+    }
+
+    int64_t id()
+    {
+        boost::mutex::scoped_lock lock(this->mutex_);
+
+        if(this->id_ >= 9223372036854775807)
+            this->id_ = 0;
+
+        return this->id_++;
+    }
+
+    int64_t sendcount()
+    {
+        boost::mutex::scoped_lock lock(this->mutex_sendcount_);
+
+        return this->send_count_id_++;
+    }
+
+    std::map<int, std::string> & server_map()
+    {
+        return this->server_map_;
+    }
+
+    int connect_count() const
+    {
+        return this->connect_count_;
+    }
+
+    int heart_second() const
+    {
+        return this->heart_second_;
+    }
+
+    std::string const& path() const
+    {
+        return this->path_;
+    }
+
+    int thread_cout() const
+    {
+        return this->thread_cout_;
+    }
+
+    int io_pool_size() const
+    {
+        return this->io_pool_size_;
+    }
+
+    void get_session(std::string const& cid, std::map<std::string, meet_you::sess_t> & sesss);
+
+    std::vector<std::string> & get_urls()
+    {
+        return dburls_;
+    }
+
+    std::vector<std::string> & get_bak_dburls()
+    {
+        return bakdburls_;
+    }
+
+    std::map<std::string, std::string> & get_db_bak_urls()
+    {
+        return db_bak_urls_;
+    }
+
+    std::map<std::string, std::string> & get_message_box_urls()
+    {
+        return message_box_urls_;
+    }
+
+    meet_you::ZkClient & zk()
+    {
+        return this->zk_;
+    }
+
+    std::string const& session_path() const
+    {
+        return this->session_path_;
+    }
+
+    std::string const& session_path_bak() const
+    {
+        return this->session_path_bak_;
+    }
+
+    std::string const& db_group_path() const
+    {
+        return db_group_path_;
+    }
+
+    std::string const& reply_domain() const
+    {
+        return reply_domain_;
+    }
+
+    std::string const& post_topic_domain() const
+    {
+        return post_topic_domain_;
+    }
+
+    std::string const& robot_domain() const
+    {
+        return robot_domain_;
+    }
+
+    unsigned int task_queue_max() const
+    {
+        return task_queue_max_;
+    }
+
+    std::string python_root() const
+    {
+        return python_root_;
+    }
+
+    std::vector<std::pair<std::string, int> > const& mongo_hosts() const
+    {
+        return hosts_;
+    }
+
+protected:
+    std::string get(std::string const& path);
+
+    int init_zookeeper();
+    int init_session_n_srvlist();
+
+    int init_mongo_hosts();
+
+private:
+    int port_;
+    boost::property_tree::ptree pt_;
+    std::map<int, std::string> server_map_;
+    int64_t id_;
+    int64_t send_count_id_;
+    meet_you::sess_cache sess_cache_;
+    meet_you::servlist_cache servlist_cache_;
+
+    meet_you::SessCache sessCache_;
+    meet_you::SvLstCache svlstCache_;
+
+    int connect_count_;
+    int heart_second_;
+
+    std::string path_;
+    int thread_cout_;
+    int io_pool_size_;
+
+    boost::mutex mutex_;
+    boost::mutex mutex_sendcount_;
+
+    std::vector<std::string> dburls_;
+    std::vector<std::string> bakdburls_;
+    std::map<std::string, std::string> db_bak_urls_;
+    std::map<std::string, std::string> message_box_urls_;
+
+    meet_you::ZkClient zk_;
+    std::string session_path_;
+    std::string session_path_bak_;
+    std::string db_group_path_;
+
+    std::string reply_domain_;
+    std::string post_topic_domain_;
+
+    std::string robot_domain_;
+
+    unsigned int task_queue_max_;
+
+    std::string python_root_;
+
+    std::vector<std::pair<std::string, int> > hosts_;
+};
+
+typedef boost::serialization::singleton<configwrap> __CONFIGWRAP;
+
+}
+#endif // CONFIGWRAP_H

@@ -1,0 +1,186 @@
+#include "json_push_responser.h"
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+#include "json_push_packet.h"
+#include "configwrap.h"
+
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/lexical_cast.hpp>
+
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+#include "log.h"
+#include "session_base.h"
+#include "peer_handle_map.h"
+
+#include "session_task.h"
+
+#include "uuid/uuid.h"
+
+using namespace boost::posix_time;
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+json_push_responser::json_push_responser()
+{
+    //ctor
+}
+
+json_push_responser::~json_push_responser()
+{
+    //dtor
+}
+
+int json_push_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    if(!data.empty())
+    {
+        task_responser::response(id, h, data);
+    }
+    else
+    {
+        PUSHLOG_WARN(RFORMATE("error data, data is empty"));
+        task_responser::response(id, h, "{\"type\":11, \"push_resp\":{\"cid\":\"decode json error or PushPacket parser error\",\"type\":201,\"msgid\":123456789}}");
+    }
+
+    return 0;
+}
+
+std::string json_push_responser::parser(std::string const& data)
+{
+    json_push_packet packet(data);
+
+    if(packet.packet_type() == 10)
+    {
+        PushPacket pp;
+        std::vector<std::string> cids = packet.cid();
+
+        if(cids.size() <= 0)
+        {
+            PUSHLOG_ERROR("empty cids!!!");
+            return "";
+        }
+
+        pp.set_type(packet.packet_type());
+
+        std::string cid = cids[0];
+        std::string type;
+
+        if(!cid.empty())
+        {
+            PushRequest *pr = pp.mutable_push_req();
+
+            pr->set_cid(cid);
+            //std::string type = boost::lexical_cast<std::string>( packet.packet_type() );
+            type = packet.type();
+            pr->set_type(type);
+
+            //int64_t msgid = __CONFIGWRAP::get_mutable_instance().id();
+            pr->set_expiry(packet.expiry());
+
+            std::string decode_data;
+            if( !this->Base64Decode(packet.data(), decode_data) )
+            {
+                PUSHLOG_ERROR(RFORMATE("json push msgmissing cid:" + cid) + RFORMATE("json decode error:" + packet.data()));
+                return "";
+            }
+
+            PUSHLOG_INFO(RFORMATE("cid:" + cid) + RFORMATE("base64 json data decode:" + packet.data()));
+
+            pr->set_data(decode_data);
+
+            //todo save cache message
+
+            meet_you::msg msg;
+            msg.set_data(decode_data);
+            msg.set_from(cid);
+            time_t t = time(&t);
+            msg.set_time(t);
+
+            std::string dbname = cid+"__"+type;
+            if( this->add_msg(dbname, msg) < 0)
+            {
+                //msgid_ must after add_msg to use
+                PUSHLOG_WARN("faild add msg to cache. auto generate msgid" + RFORMATE("cid:"+cid));
+                msgid_ = __CONFIGWRAP::get_mutable_instance().id();
+                return packet.to_push_packet_response(cid, type, msgid_);
+            }
+
+            pr->set_msgid(msgid_);
+
+            std::string out_pp;
+            if( !pp.SerializeToString(&out_pp) )
+            {
+                PUSHLOG_FATAL(RFORMATE("json push msgmissing inter serialize error ") + RFORMATE("cid:" + cid ));
+                return "";
+            }
+
+            ServiceRequest sr;
+            sr.set_service_type(100);
+            sr.set_payload(out_pp);
+
+            std::map<std::string, meet_you::Sess> sesss;
+            std::map<std::string, meet_you::Sess>::iterator it;
+
+            __SESSION_TASK::get_mutable_instance().get_session(cid, sesss);
+
+            if(sesss.size() == 0)
+            {
+                PUSHLOG_WARN(RFORMATE("json push msgmissing get session empty") + RFORMATE( "cid:" + cid));
+            }
+
+            std::string sn = packet.sn();
+            if(sn.empty())
+            {
+                sn.resize(36);
+                uuid_t uuid;
+
+                uuid_generate(uuid);
+                uuid_unparse(uuid, const_cast<char*>( sn.data() ));
+            }
+
+            sr.set_sn(sn);
+
+            for(it = sesss.begin(); it != sesss.end(); ++it)
+            {
+                sr.set_sessid(it->first);
+
+                std::string out;
+                sr.SerializeToString(&out);
+
+                message_format mf;
+
+                meet_you::head hh;
+                hh.cmd = 200;
+                hh.len = sizeof(hh) + out.size();
+                hh.magic = 0;
+
+                mf.encode_header(hh, out);
+                mf.body_combine();
+
+                std::string server_id = "server:" + it->second.server_addr;
+
+                std::stringstream s_ss;
+                std::stringstream msg_ss;
+                msg_ss << "msgid:" << msgid_;
+                s_ss << RFORMATE("start send to server:" + server_id) << RFORMATE("sn:" + sn) << RFORMATE(msg_ss.str()) << RFORMATE("cid:" + cid);
+                PUSHLOG_INFO(s_ss.str());
+
+                this->dispatch_to_server(server_id, mf);
+            }
+        }
+
+        return packet.to_push_packet_response(cid, type, msgid_);
+    }
+
+    return "";
+}
+
+}

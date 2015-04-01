@@ -1,0 +1,1545 @@
+# depslib dependency file v1.0
+1421823406 source:/root/svn/trunk/src/bserver/main.cpp
+	<boost/asio/signal_set.hpp>
+	<curl/curl.h>
+	"ffpython.h"
+	"peer_handle_client.h"
+	"peer_handle_server.h"
+	"io_service_provide.h"
+	"session_task.h"
+	"peer_handle_map.h"
+	"log.h"
+	"configwrap.h"
+	"json_push_packet.h"
+	"heart_task_thread.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/peer_handle_client.h
+	<deque>
+	"peer_base.h"
+	"message_format.h"
+	"client_session.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/peer_base.h
+	<csignal>
+	<cstring>
+	<unistd.h>
+	<execinfo.h>
+	<cstdlib>
+	<deque>
+	<iostream>
+	<boost/bind.hpp>
+	<boost/asio.hpp>
+	<boost/thread/thread.hpp>
+	"message_format.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/message_format.h
+	<arpa/inet.h>
+	<winsock2.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<vector>
+	<boost/algorithm/string.hpp>
+	<boost/lexical_cast.hpp>
+	"msg_head.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/msg_head.h
+	"base/ef_btype.h"
+
+1399390274 /root/svn/trunk/src/common/base/ef_btype.h
+	<sys/types.h>
+
+1416368753 /root/svn/trunk/src/bserver/include/client_session.h
+	"session_base.h"
+
+1416368752 /root/svn/trunk/src/bserver/include/session_base.h
+	<cstdlib>
+	<deque>
+	<iostream>
+	<boost/bind.hpp>
+	<boost/asio.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/thread.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/enable_shared_from_this.hpp>
+	"message_format.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/peer_handle_server.h
+	"peer_base.h"
+	<boost/shared_ptr.hpp>
+	<boost/enable_shared_from_this.hpp>
+	"server_session.h"
+
+1416368752 /root/svn/trunk/src/bserver/include/server_session.h
+	<deque>
+	"session_base.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/io_service_provide.h
+	<vector>
+	<boost/serialization/singleton.hpp>
+	<boost/asio.hpp>
+	<boost/thread.hpp>
+	"session_task.h"
+	"configwrap.h"
+
+1422243104 /root/svn/trunk/src/bserver/include/session_task.h
+	"task_base.h"
+	"configwrap.h"
+	"logic_deal_processing.h"
+	"mongo_client.h"
+
+1417425347 /root/svn/trunk/src/bserver/include/peer_handle_map.h
+	<string>
+	<map>
+	<boost/shared_ptr.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/serialization/singleton.hpp>
+	"session_base.h"
+
+1421726050 /root/svn/trunk/src/bserver/include/configwrap.h
+	<string>
+	<vector>
+	<boost/serialization/singleton.hpp>
+	<boost/property_tree/ptree.hpp>
+	<boost/property_tree/ini_parser.hpp>
+	<boost/filesystem.hpp>
+	<boost/regex.hpp>
+	<boost/algorithm/string.hpp>
+	<boost/thread/mutex.hpp>
+	"cli_session.h"
+	"servlist_cache.h"
+	"session_cache.h"
+	"config_cache.h"
+	"zk_client.h"
+
+1403062210 /root/svn/trunk/src/cache_group/cli_session.h
+	"base/ef_btype.h"
+	"base_cache.h"
+
+1403062210 /root/svn/trunk/src/cache_group/base_cache.h
+	"cache_group.h"
+
+1403570297 /root/svn/trunk/src/cache_group/cache_group.h
+	<string>
+	<vector>
+	<map>
+	"db_cli.h"
+
+1403062210 /root/svn/trunk/src/cache_group/db_cli.h
+	<string>
+	<vector>
+	<map>
+	"hiredis/hiredis.h"
+
+1403570297 /root/svn/trunk/src/cache_group/servlist_cache.h
+	"base_cache.h"
+
+1415775481 /root/svn/trunk/src/cache_group_new/session_cache.h
+	"base/ef_btype.h"
+	"db_group.h"
+
+1404783394 /root/svn/trunk/src/cache_group_new/db_group.h
+	"db_cli_new.h"
+	"zk_path_watcher.h"
+	<string>
+	<map>
+	<vector>
+
+1421206242 /root/svn/trunk/src/cache_group_new/db_cli_new.h
+	<string>
+	<vector>
+	<map>
+	"hiredis/hiredis.h"
+	"base/ef_btype.h"
+	<float.h>
+
+1404465929 /root/svn/trunk/src/cache_group_new/zk_path_watcher.h
+	<string>
+	<vector>
+
+1414648300 /root/svn/trunk/src/cache_group_new/config_cache.h
+	"zk_client.h"
+	"zk_path_watcher.h"
+
+1404783394 /root/svn/trunk/src/cache_group_new/zk_client.h
+	"zk_path_watcher.h"
+	<map>
+	<pthread.h>
+
+1420771224 /root/svn/trunk/src/bserver/include/log.h
+	<string>
+	<memory>
+	<boost/serialization/singleton.hpp>
+	<boost/filesystem.hpp>
+	<log4cplus/logger.h>
+	<log4cplus/consoleappender.h>
+	<log4cplus/layout.h>
+	<log4cplus/appender.h>
+	<log4cplus/fileappender.h>
+	<log4cplus/loggingmacros.h>
+
+1421044332 /root/svn/trunk/src/bserver/include/logic_deal_processing.h
+	"message_format.h"
+	<boost/serialization/singleton.hpp>
+
+1416368753 /root/svn/trunk/src/bserver/include/json_push_packet.h
+	<stdint.h>
+	"json_parser.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/json_parser.h
+	<exception>
+	<string>
+	<boost/property_tree/ptree.hpp>
+	<boost/property_tree/json_parser.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/thread.hpp>
+	"json/json.h"
+
+1268379095 /root/svn/trunk/src/bserver/include/json/json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1268379095 /root/svn/trunk/src/bserver/include/json/autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1268379095 /root/svn/trunk/src/bserver/include/json/config.h
+	<cpptl/config.h>
+
+1416368753 /root/svn/trunk/src/bserver/include/json/value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1416368752 /root/svn/trunk/src/bserver/include/json/forwards.h
+	"config.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/json/reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<stack>
+	<string>
+	<iostream>
+
+1416368753 /root/svn/trunk/src/bserver/include/json/features.h
+	"forwards.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/json/writer.h
+	"value.h"
+	<vector>
+	<string>
+	<iostream>
+
+1416368752 /root/svn/trunk/src/bserver/include/heart_task_thread.h
+	<string>
+	<boost/thread/mutex.hpp>
+	<boost/serialization/singleton.hpp>
+	"message_format.h"
+	"peer_handle_map.h"
+
+1415609923 source:/root/svn/trunk/src/bserver/src/client_session.cpp
+	"client_session.h"
+	<sstream>
+	"logic_deal_processing.h"
+	"peer_handle_map.h"
+	"peer_handle_client.h"
+	"io_service_provide.h"
+	"log.h"
+
+1421746394 source:/root/svn/trunk/src/bserver/src/configwrap.cpp
+	"configwrap.h"
+	<boost/lexical_cast.hpp>
+	"log.h"
+	"peer_handle_client.h"
+	"io_service_provide.h"
+	"peer_handle_map.h"
+
+1406771603 source:/root/svn/trunk/src/bserver/src/heart_task_thread.cpp
+	"heart_task_thread.h"
+	<boost/thread/thread.hpp>
+	"peer_handle_client.h"
+	"configwrap.h"
+	"log.h"
+	"io_service_provide.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/src/json_parser.cpp
+	"json_parser.h"
+	"log.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/src/json_push_packet.cpp
+	"json_push_packet.h"
+	<vector>
+	<boost/lexical_cast.hpp>
+	"log.h"
+
+1421824347 source:/root/svn/trunk/src/bserver/src/log.cpp
+	"log.h"
+	<unistd.h>
+
+1421805762 source:/root/svn/trunk/src/bserver/src/logic_deal_processing.cpp
+	"logic_deal_processing.h"
+	<exception>
+	<boost/thread.hpp>
+	<boost/make_shared.hpp>
+	"session_task.h"
+	"log.h"
+	"task_responser.h"
+	"server_service_responser.h"
+	"service_package_responser.h"
+	"httpclient/server_service_response_responser.h"
+	"httpclient/service_package_busy_responser.h"
+	"embeded_python/python_func_service_responser.h"
+	"group_service_request_responser.h"
+	"group_responser.h"
+
+1416368752 source:/root/svn/trunk/src/bserver/src/message_format.cpp
+	<iostream>
+	"message_format.h"
+	"log.h"
+
+1416368752 source:/root/svn/trunk/src/bserver/src/peer_base.cpp
+	"peer_base.h"
+	"io_service_provide.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/proto/connect_server.pb.cc
+	"connect_server.pb.h"
+	<algorithm>
+	<google/protobuf/stubs/common.h>
+	<google/protobuf/stubs/once.h>
+	<google/protobuf/io/coded_stream.h>
+	<google/protobuf/wire_format_lite_inl.h>
+	<google/protobuf/descriptor.h>
+	<google/protobuf/generated_message_reflection.h>
+	<google/protobuf/reflection_ops.h>
+	<google/protobuf/wire_format.h>
+
+1416368753 /root/svn/trunk/src/bserver/proto/connect_server.pb.h
+	<string>
+	<google/protobuf/stubs/common.h>
+	<google/protobuf/generated_message_util.h>
+	<google/protobuf/message.h>
+	<google/protobuf/repeated_field.h>
+	<google/protobuf/extension_set.h>
+	<google/protobuf/unknown_field_set.h>
+
+1416368753 source:/root/svn/trunk/src/bserver/src/peer_handle_client.cpp
+	<sstream>
+	"peer_handle_client.h"
+	"peer_handle_map.h"
+	"../proto/connect_server.pb.h"
+	"log.h"
+
+1417484976 source:/root/svn/trunk/src/bserver/src/peer_handle_map.cpp
+	"peer_handle_map.h"
+	"log.h"
+	"configwrap.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/src/peer_handle_server.cpp
+	"peer_handle_server.h"
+	"log.h"
+	"io_service_provide.h"
+
+1416368752 source:/root/svn/trunk/src/bserver/src/server_session.cpp
+	"server_session.h"
+	<sstream>
+	"logic_deal_processing.h"
+	"peer_handle_map.h"
+	"log.h"
+
+1416368752 source:/root/svn/trunk/src/bserver/src/session_base.cpp
+	"session_base.h"
+	"peer_handle_map.h"
+	"log.h"
+
+1421726474 source:/root/svn/trunk/src/bserver/src/session_task.cpp
+	"session_task.h"
+	<exception>
+	<boost/thread.hpp>
+	<boost/make_shared.hpp>
+	"peer_handle_map.h"
+
+1415583001 source:/root/svn/trunk/src/bserver/httpclient/curl_base.cpp
+	"curl_base.h"
+
+1415182927 /root/svn/trunk/src/bserver/httpclient/curl_base.h
+	<string>
+	<vector>
+	"curl/curl.h"
+
+1417179582 source:/root/svn/trunk/src/bserver/httpclient/server_service_responser.cpp
+	"server_service_responser.h"
+	"../proto/connect_server.pb.h"
+	"../proto/ServicePacket.pb.h"
+	"service_package_responser.h"
+
+1416368753 /root/svn/trunk/src/bserver/httpclient/server_service_responser.h
+	"task_responser.h"
+
+1421722706 /root/svn/trunk/src/bserver/httpclient/task_responser.h
+	<boost/shared_ptr.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/serialization/singleton.hpp>
+	"message_format.h"
+	"../proto/connect_server.pb.h"
+	"session_task.h"
+	"service_response_result.h"
+
+1421819891 /root/svn/trunk/src/bserver/proto/ServicePacket.pb.h
+	<string>
+	<google/protobuf/stubs/common.h>
+	<google/protobuf/generated_message_util.h>
+	<google/protobuf/message.h>
+	<google/protobuf/repeated_field.h>
+	<google/protobuf/extension_set.h>
+	<google/protobuf/unknown_field_set.h>
+
+1422238733 /root/svn/trunk/src/bserver/httpclient/service_package_responser.h
+	"task_responser.h"
+	"../proto/ServicePacket.pb.h"
+
+1422239146 source:/root/svn/trunk/src/bserver/httpclient/service_package_responser.cpp
+	"service_package_responser.h"
+	"curl_base.h"
+	"configwrap.h"
+	"service_request_json_data.h"
+	<boost/date_time/gregorian/gregorian.hpp>
+	<boost/date_time.hpp>
+	<boost/date_time/posix_time/posix_time.hpp>
+
+1414722926 source:/root/svn/trunk/src/bserver/httpclient/task_responser.cpp
+	<string>
+	<iostream>
+	<sstream>
+	"task_responser.h"
+	"peer_handle_map.h"
+	"log.h"
+	<boost/archive/iterators/base64_from_binary.hpp>
+	<boost/archive/iterators/binary_from_base64.hpp>
+	<boost/archive/iterators/transform_width.hpp>
+	<boost/lexical_cast.hpp>
+	"configwrap.h"
+	"uuid/uuid.h"
+
+1421819891 source:/root/svn/trunk/src/bserver/proto/ServicePacket.pb.cc
+	"ServicePacket.pb.h"
+	<algorithm>
+	<google/protobuf/stubs/common.h>
+	<google/protobuf/stubs/once.h>
+	<google/protobuf/io/coded_stream.h>
+	<google/protobuf/wire_format_lite_inl.h>
+	<google/protobuf/descriptor.h>
+	<google/protobuf/generated_message_reflection.h>
+	<google/protobuf/reflection_ops.h>
+	<google/protobuf/wire_format.h>
+
+1417420443 source:/root/svn/trunk/src/bserver/httpclient/server_service_response_responser.cpp
+	"server_service_response_responser.h"
+	"service_request_json_data.h"
+	"../proto/ServicePacket.pb.h"
+	"uuid/uuid.h"
+
+1416368752 /root/svn/trunk/src/bserver/httpclient/server_service_response_responser.h
+	"task_responser.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/service_response_result.h
+
+1414723697 source:/root/svn/trunk/src/bserver/src/service_response_result.cpp
+	"service_response_result.h"
+
+1416368753 /root/svn/trunk/src/bserver/include/task_base.h
+	<deque>
+	<string>
+	<boost/shared_ptr.hpp>
+	<boost/thread.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/serialization/singleton.hpp>
+	"message_format.h"
+	"log.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/httpclient/service_package_busy_responser.cpp
+	"service_package_busy_responser.h"
+	"../proto/ServicePacket.pb.h"
+	"configwrap.h"
+
+1416368753 /root/svn/trunk/src/bserver/httpclient/service_package_busy_responser.h
+	"task_responser.h"
+
+1416368753 source:/root/svn/trunk/src/bserver/src/task_base.cpp
+	"task_base.h"
+	"configwrap.h"
+
+1420598332 source:/root/svn/trunk/src/bserver/embeded_python/python_call_base.cpp
+	"python_call_base.h"
+
+1421058041 /root/svn/trunk/src/bserver/embeded_python/python_call_base.h
+	<typeinfo>
+	"python_status_ensure.h"
+
+1421113586 source:/root/svn/trunk/src/bserver/embeded_python/python_status_ensure.cpp
+	"python_status_ensure.h"
+
+1421057859 /root/svn/trunk/src/bserver/embeded_python/python_status_ensure.h
+	"ffpython.h"
+
+1416205390 /root/tool/ffpython/ffpython.h
+	<Python.h>
+	<structmember.h>
+	<string>
+	<sstream>
+	<vector>
+	<list>
+	<set>
+	<map>
+	<stdexcept>
+
+1390383685 /usr/include/python2.6/Python.h
+	"patchlevel.h"
+	"pyconfig.h"
+	"pymacconfig.h"
+	<limits.h>
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<unistd.h>
+	<stddef.h>
+	<assert.h>
+	"pyport.h"
+	"pymath.h"
+	"pymem.h"
+	"object.h"
+	"objimpl.h"
+	"pydebug.h"
+	"unicodeobject.h"
+	"intobject.h"
+	"boolobject.h"
+	"longobject.h"
+	"floatobject.h"
+	"complexobject.h"
+	"rangeobject.h"
+	"stringobject.h"
+	"bufferobject.h"
+	"bytesobject.h"
+	"bytearrayobject.h"
+	"tupleobject.h"
+	"listobject.h"
+	"dictobject.h"
+	"enumobject.h"
+	"setobject.h"
+	"methodobject.h"
+	"moduleobject.h"
+	"funcobject.h"
+	"classobject.h"
+	"fileobject.h"
+	"cobject.h"
+	"traceback.h"
+	"sliceobject.h"
+	"cellobject.h"
+	"iterobject.h"
+	"genobject.h"
+	"descrobject.h"
+	"warnings.h"
+	"weakrefobject.h"
+	"codecs.h"
+	"pyerrors.h"
+	"pystate.h"
+	"pyarena.h"
+	"modsupport.h"
+	"pythonrun.h"
+	"ceval.h"
+	"sysmodule.h"
+	"intrcheck.h"
+	"import.h"
+	"abstract.h"
+	"compile.h"
+	"eval.h"
+	"pyctype.h"
+	"pystrtod.h"
+	"pystrcmp.h"
+	"pyfpe.h"
+	<pth.h>
+
+1282606676 /usr/include/python2.6/patchlevel.h
+
+1390383776 /usr/include/python2.6/pyconfig.h
+	<bits/wordsize.h>
+	"pyconfig-32.h"
+	"pyconfig-64.h"
+
+1390383705 /usr/include/python2.6/pyconfig-64.h
+
+1273418140 /usr/include/python2.6/pymacconfig.h
+
+1273418140 /usr/include/python2.6/pyport.h
+	"pyconfig.h"
+	<stdint.h>
+	<stdlib.h>
+	<math.h>
+	<sys/time.h>
+	<time.h>
+	<sys/time.h>
+	<time.h>
+	<sys/select.h>
+	<sys/types.h>
+	"unixstuff.h"
+	<sys/types.h>
+	<sys/stat.h>
+	<stat.h>
+	<sys/types.h>
+	<sys/termio.h>
+	<termios.h>
+	<osreldate.h>
+	<ctype.h>
+	<wctype.h>
+
+1241443843 /usr/include/python2.6/pymath.h
+	"pyconfig.h"
+	<stdint.h>
+
+1266156019 /usr/include/python2.6/pymem.h
+	"pyport.h"
+
+1390383685 /usr/include/python2.6/object.h
+
+1273418140 /usr/include/python2.6/objimpl.h
+	"pymem.h"
+
+1390383685 /usr/include/python2.6/pydebug.h
+
+1273418140 /usr/include/python2.6/unicodeobject.h
+	<stdarg.h>
+	<ctype.h>
+	<time.h>
+	<wchar.h>
+	<wctype.h>
+
+1215315358 /usr/include/python2.6/intobject.h
+
+1198031864 /usr/include/python2.6/boolobject.h
+
+1212171004 /usr/include/python2.6/longobject.h
+
+1215315358 /usr/include/python2.6/floatobject.h
+
+1208560387 /usr/include/python2.6/complexobject.h
+
+1198031864 /usr/include/python2.6/rangeobject.h
+
+1273418140 /usr/include/python2.6/stringobject.h
+	<stdarg.h>
+
+1198031864 /usr/include/python2.6/bufferobject.h
+
+1213155610 /usr/include/python2.6/bytesobject.h
+
+1263744387 /usr/include/python2.6/bytearrayobject.h
+	<stdarg.h>
+
+1202993253 /usr/include/python2.6/tupleobject.h
+
+1198031864 /usr/include/python2.6/listobject.h
+
+1273418140 /usr/include/python2.6/dictobject.h
+
+1068127608 /usr/include/python2.6/enumobject.h
+
+1273418140 /usr/include/python2.6/setobject.h
+
+1202993253 /usr/include/python2.6/methodobject.h
+
+1198031864 /usr/include/python2.6/moduleobject.h
+
+1198031864 /usr/include/python2.6/funcobject.h
+
+1202993253 /usr/include/python2.6/classobject.h
+
+1273418140 /usr/include/python2.6/fileobject.h
+
+1220035188 /usr/include/python2.6/cobject.h
+
+1215812706 /usr/include/python2.6/traceback.h
+
+1240193353 /usr/include/python2.6/sliceobject.h
+
+1198031864 /usr/include/python2.6/cellobject.h
+
+1198031864 /usr/include/python2.6/iterobject.h
+
+1201356860 /usr/include/python2.6/genobject.h
+
+1273418140 /usr/include/python2.6/descrobject.h
+
+1213396713 /usr/include/python2.6/warnings.h
+
+1198031864 /usr/include/python2.6/weakrefobject.h
+
+1142422515 /usr/include/python2.6/codecs.h
+
+1273418140 /usr/include/python2.6/pyerrors.h
+	<stdarg.h>
+
+1269178351 /usr/include/python2.6/pystate.h
+
+1141869567 /usr/include/python2.6/pyarena.h
+
+1390383685 /usr/include/python2.6/modsupport.h
+	<stdarg.h>
+
+1390383685 /usr/include/python2.6/pythonrun.h
+
+1273418140 /usr/include/python2.6/ceval.h
+
+1274462563 /usr/include/python2.6/sysmodule.h
+
+1029136918 /usr/include/python2.6/intrcheck.h
+
+1253131596 /usr/include/python2.6/import.h
+
+1273418140 /usr/include/python2.6/abstract.h
+
+1206568897 /usr/include/python2.6/compile.h
+	"code.h"
+
+1206568897 /usr/include/python2.6/code.h
+
+1049915181 /usr/include/python2.6/eval.h
+
+1390383685 /usr/include/python2.6/pyctype.h
+
+1140024465 /usr/include/python2.6/pystrtod.h
+
+1222093425 /usr/include/python2.6/pystrcmp.h
+
+877391401 /usr/include/python2.6/pyfpe.h
+	<signal.h>
+	<setjmp.h>
+	<math.h>
+
+1273418140 /usr/include/python2.6/structmember.h
+	<stddef.h>
+
+1421822458 source:/root/svn/trunk/src/bserver/embeded_python/python_func_service_responser.cpp
+	"python_func_service_responser.h"
+	<vector>
+	<map>
+	<exception>
+	"python_call_base.h"
+	"proto/ServicePacket.pb.h"
+
+1421822163 /root/svn/trunk/src/bserver/embeded_python/python_func_service_responser.h
+	"task_responser.h"
+
+1416205390 /root/svn/trunk/src/bserver/include/ffpython.h
+	<Python.h>
+	<structmember.h>
+	<string>
+	<sstream>
+	<vector>
+	<list>
+	<set>
+	<map>
+	<stdexcept>
+
+1417420503 /root/svn/trunk/src/bserver/include/service_request_json_data.h
+	"json_parser.h"
+
+1417420515 source:/root/svn/trunk/src/bserver/src/service_request_json_data.cpp
+	"service_request_json_data.h"
+
+1414722914 /root/svn/trunk/src/bserver/include/task_responser.h
+	<boost/shared_ptr.hpp>
+	<boost/thread/mutex.hpp>
+	<boost/serialization/singleton.hpp>
+	"message_format.h"
+	"../proto/connect_server.pb.h"
+	"session_task.h"
+	"service_response_result.h"
+
+1414722926 source:/root/svn/trunk/src/bserver/src/task_responser.cpp
+	<string>
+	<iostream>
+	<sstream>
+	"task_responser.h"
+	"peer_handle_map.h"
+	"log.h"
+	<boost/archive/iterators/base64_from_binary.hpp>
+	<boost/archive/iterators/binary_from_base64.hpp>
+	<boost/archive/iterators/transform_width.hpp>
+	<boost/lexical_cast.hpp>
+	"configwrap.h"
+	"uuid/uuid.h"
+
+1422239728 /root/svn/trunk/src/mongo_client/mongo_client.h
+	<vector>
+	<string>
+	<utility>
+
+1421254535 /root/mongo-client-install/include/mongo/client/dbclient.h
+	"mongo/config.h"
+	"mongo/client/redef_macros.h"
+	"mongo/client/autolib.h"
+	"mongo/client/dbclient_rs.h"
+	"mongo/client/dbclientcursor.h"
+	"mongo/client/dbclientinterface.h"
+	"mongo/client/gridfs.h"
+	"mongo/client/init.h"
+	"mongo/client/options.h"
+	"mongo/client/sasl_client_authenticate.h"
+	"mongo/geo/interface.h"
+	"mongo/version.h"
+	"mongo/client/undef_macros.h"
+
+1421307808 /root/mongo-client-install/include/mongo/config.h
+
+1421254535 /root/mongo-client-install/include/mongo/client/redef_macros.h
+
+1421254535 /root/mongo-client-install/include/mongo/client/autolib.h
+
+1421254535 /root/mongo-client-install/include/mongo/client/dbclient_rs.h
+	<boost/shared_ptr.hpp>
+	<utility>
+	"mongo/client/dbclientinterface.h"
+	"mongo/client/export_macros.h"
+	"mongo/util/net/hostandport.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/dbclientinterface.h
+	<boost/thread/locks.hpp>
+	<boost/thread/mutex.hpp>
+	"mongo/config.h"
+	"mongo/base/string_data.h"
+	"mongo/client/bulk_operation_builder.h"
+	"mongo/client/exceptions.h"
+	"mongo/client/export_macros.h"
+	"mongo/client/index_spec.h"
+	"mongo/client/write_concern.h"
+	"mongo/client/write_options.h"
+	"mongo/db/jsobj.h"
+	"mongo/logger/log_severity.h"
+	"mongo/platform/atomic_word.h"
+	"mongo/stdx/functional.h"
+	"mongo/util/mongoutils/str.h"
+	"mongo/util/net/message.h"
+	"mongo/util/net/message_port.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/string_data.h
+	<algorithm>
+	<cstring>
+	<iosfwd>
+	<limits>
+	<string>
+	"mongo/client/export_macros.h"
+	"mongo/base/string_data-inl.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/export_macros.h
+	"mongo/platform/compiler.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/compiler.h
+	"mongo/platform/compiler_msvc.h"
+	"mongo/platform/compiler_gcc.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/compiler_msvc.h
+
+1421254535 /root/mongo-client-install/include/mongo/platform/compiler_gcc.h
+
+1421254535 /root/mongo-client-install/include/mongo/base/string_data-inl.h
+	<stdexcept>
+
+1421254535 /root/mongo-client-install/include/mongo/client/bulk_operation_builder.h
+	<vector>
+	"mongo/bson/bsonobj.h"
+	"mongo/client/bulk_update_builder.h"
+	"mongo/client/write_result.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsonobj.h
+	<boost/intrusive_ptr.hpp>
+	<boost/noncopyable.hpp>
+	<set>
+	<list>
+	<string>
+	<vector>
+	<utility>
+	"mongo/bson/bsonelement.h"
+	"mongo/base/data_view.h"
+	"mongo/base/string_data.h"
+	"mongo/bson/util/builder.h"
+	"mongo/client/export_macros.h"
+	"mongo/platform/atomic_word.h"
+	"mongo/util/shared_buffer.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsonelement.h
+	<string.h>
+	<string>
+	<vector>
+	"mongo/base/data_cursor.h"
+	"mongo/bson/bsontypes.h"
+	"mongo/bson/oid.h"
+	"mongo/bson/timestamp.h"
+	"mongo/client/export_macros.h"
+	"mongo/platform/cstdint.h"
+	"mongo/platform/float_utils.h"
+	"mongo/platform/strnlen.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/data_cursor.h
+	<cstddef>
+	<cstring>
+	"mongo/base/data_view.h"
+	"mongo/platform/endian.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/data_view.h
+	"mongo/config.h"
+	<cstring>
+	"mongo/platform/endian.h"
+	<type_traits>
+
+1421254535 /root/mongo-client-install/include/mongo/platform/endian.h
+	"mongo/config.h"
+	<climits>
+	<cstring>
+	<boost/static_assert.hpp>
+	<boost/mpl/if.hpp>
+	<boost/type_traits/is_signed.hpp>
+	"mongo/platform/cstdint.h"
+	<cstdlib>
+	<sys/byteorder.h>
+
+1421254535 /root/mongo-client-install/include/mongo/platform/cstdint.h
+	<cstdint>
+	<stdint.h>
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsontypes.h
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/assert_util.h
+	<iostream>
+	<typeinfo>
+	<string>
+	"mongo/base/status.h"
+	"mongo/client/export_macros.h"
+	"mongo/platform/compiler.h"
+	"mongo/logger/log_severity.h"
+	"mongo/logger/logger.h"
+	"mongo/logger/logstream_builder.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/status.h
+	<iosfwd>
+	<string>
+	"mongo/base/error_codes.h"
+	"mongo/client/export_macros.h"
+	"mongo/platform/atomic_word.h"
+	"mongo/base/status-inl.h"
+
+1421307806 /root/mongo-client-install/include/mongo/base/error_codes.h
+	<string>
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_word.h
+	"mongo/config.h"
+	"mongo/platform/atomic_word_cxx11.h"
+	"mongo/platform/atomic_word_intrinsics.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_word_cxx11.h
+	<atomic>
+	<type_traits>
+	<boost/static_assert.hpp>
+	"mongo/base/disallow_copying.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/disallow_copying.h
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_word_intrinsics.h
+	<boost/static_assert.hpp>
+	"mongo/base/disallow_copying.h"
+	"mongo/platform/atomic_intrinsics.h"
+	"mongo/platform/compiler.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_intrinsics.h
+	"mongo/config.h"
+	"mongo/platform/atomic_intrinsics_win32.h"
+	"mongo/platform/atomic_intrinsics_gcc_atomic.h"
+	"mongo/platform/atomic_intrinsics_gcc_sync.h"
+	"mongo/platform/atomic_intrinsics_gcc_intel.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_intrinsics_win32.h
+	<boost/utility.hpp>
+	"mongo/platform/windows_basic.h"
+	<intrin.h>
+
+1421254535 /root/mongo-client-install/include/mongo/platform/windows_basic.h
+	<winsock2.h>
+	<ws2tcpip.h>
+	<wspiapi.h>
+	<windows.h>
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_intrinsics_gcc_atomic.h
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_intrinsics_gcc_sync.h
+	<boost/utility.hpp>
+
+1421254535 /root/mongo-client-install/include/mongo/platform/atomic_intrinsics_gcc_intel.h
+	<boost/utility.hpp>
+
+1421254535 /root/mongo-client-install/include/mongo/base/status-inl.h
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_severity.h
+	<iosfwd>
+	<string>
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+	"mongo/logger/log_severity-inl.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_severity-inl.h
+
+1421254535 /root/mongo-client-install/include/mongo/logger/logger.h
+	"mongo/client/export_macros.h"
+	"mongo/logger/message_log_domain.h"
+	"mongo/logger/log_manager.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/message_log_domain.h
+	<boost/scoped_ptr.hpp>
+	<memory>
+	<string>
+	<vector>
+	"mongo/logger/log_domain.h"
+	"mongo/logger/message_event.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_domain.h
+	<boost/scoped_ptr.hpp>
+	<memory>
+	<string>
+	<vector>
+	"mongo/base/disallow_copying.h"
+	"mongo/logger/appender.h"
+	"mongo/logger/log_severity.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/appender.h
+	"mongo/base/status.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/message_event.h
+	"mongo/base/string_data.h"
+	"mongo/logger/log_component.h"
+	"mongo/logger/log_severity.h"
+	"mongo/platform/cstdint.h"
+	"mongo/util/time_support.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_component.h
+	<iosfwd>
+	<string>
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/time_support.h
+	<iosfwd>
+	<ctime>
+	<string>
+	<boost/date_time/posix_time/posix_time_types.hpp>
+	<boost/thread/xtime.hpp>
+	<boost/version.hpp>
+	"mongo/base/status_with.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/status_with.h
+	"mongo/base/status.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_manager.h
+	<string>
+	"mongo/base/disallow_copying.h"
+	"mongo/logger/component_message_log_domain.h"
+	"mongo/platform/unordered_map.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/component_message_log_domain.h
+	"mongo/logger/log_component_settings.h"
+	"mongo/logger/message_log_domain.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/log_component_settings.h
+	"mongo/base/disallow_copying.h"
+	"mongo/logger/log_component.h"
+	"mongo/logger/log_severity.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/unordered_map.h
+	<new>
+	<unordered_map>
+	<unordered_map>
+	<tr1/unordered_map>
+
+1421254535 /root/mongo-client-install/include/mongo/logger/logstream_builder.h
+	<boost/scoped_ptr.hpp>
+	<iostream>
+	<sstream>
+	<string>
+	"mongo/client/export_macros.h"
+	"mongo/logger/labeled_level.h"
+	"mongo/logger/log_component.h"
+	"mongo/logger/log_severity.h"
+	"mongo/logger/message_log_domain.h"
+
+1421254535 /root/mongo-client-install/include/mongo/logger/labeled_level.h
+	<string>
+	"mongo/logger/log_severity.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/oid.h
+	<string>
+	"mongo/base/data_view.h"
+	"mongo/bson/util/builder.h"
+	"mongo/client/export_macros.h"
+	"mongo/util/time_support.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/util/builder.h
+	<cfloat>
+	<iostream>
+	<sstream>
+	<stdio.h>
+	<string>
+	<boost/static_assert.hpp>
+	"mongo/base/data_view.h"
+	"mongo/base/string_data.h"
+	"mongo/bson/inline_decls.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/inline_decls.h
+
+1421254535 /root/mongo-client-install/include/mongo/bson/timestamp.h
+	"mongo/platform/cstdint.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/float_utils.h
+
+1421254535 /root/mongo-client-install/include/mongo/platform/strnlen.h
+	<cstddef>
+	<cstring>
+
+1421254535 /root/mongo-client-install/include/mongo/util/shared_buffer.h
+	<boost/intrusive_ptr.hpp>
+	"mongo/platform/atomic_word.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/bulk_update_builder.h
+	"mongo/bson/bsonobj.h"
+	"mongo/client/bulk_upsert_builder.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/bulk_upsert_builder.h
+	"mongo/bson/bsonobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/write_result.h
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/util/net/operation.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/net/operation.h
+
+1421254535 /root/mongo-client-install/include/mongo/client/exceptions.h
+	<exception>
+	<string>
+	"mongo/db/jsobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/db/jsobj.h
+	"mongo/bson/util/builder.h"
+	"mongo/bson/bsontypes.h"
+	"mongo/bson/oid.h"
+	"mongo/bson/bsonelement.h"
+	"mongo/bson/bsonobj.h"
+	"mongo/bson/bsonmisc.h"
+	"mongo/bson/bsonobjbuilder.h"
+	"mongo/bson/bsonobjiterator.h"
+	"mongo/bson/bson-inl.h"
+	"mongo/bson/ordering.h"
+	"mongo/base/string_data.h"
+	"mongo/bson/bson_db.h"
+	"mongo/bson/timestamp.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsonmisc.h
+	<memory>
+	"mongo/bson/bsonelement.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsonobjbuilder.h
+	<boost/static_assert.hpp>
+	<map>
+	<cmath>
+	<limits>
+	"mongo/base/data_cursor.h"
+	"mongo/base/parse_number.h"
+	"mongo/bson/bson_field.h"
+	"mongo/bson/bsonelement.h"
+	"mongo/bson/bsonmisc.h"
+	"mongo/bson/bsonobj.h"
+	"mongo/bson/timestamp.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/parse_number.h
+	"mongo/base/status.h"
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bson_field.h
+	<string>
+	"mongo/bson/bsonobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bsonobjiterator.h
+	<boost/preprocessor/cat.hpp>
+	"mongo/bson/bsonobj.h"
+	"mongo/base/disallow_copying.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bson-inl.h
+
+1421254535 /root/mongo-client-install/include/mongo/bson/ordering.h
+	"mongo/bson/bsonobj.h"
+	"mongo/bson/bsonobjiterator.h"
+
+1421254535 /root/mongo-client-install/include/mongo/bson/bson_db.h
+	"mongo/util/time_support.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/index_spec.h
+	<string>
+	<vector>
+	<utility>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/write_concern.h
+	<bitset>
+	<string>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/write_options.h
+
+1421254535 /root/mongo-client-install/include/mongo/stdx/functional.h
+	<functional>
+	<boost/bind.hpp>
+	<boost/function.hpp>
+
+1421254535 /root/mongo-client-install/include/mongo/util/mongoutils/str.h
+	<string>
+	<sstream>
+	"mongo/bson/util/builder.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/net/message.h
+	<vector>
+	"mongo/platform/atomic_word.h"
+	"mongo/platform/cstdint.h"
+	"mongo/base/data_view.h"
+	"mongo/base/encoded_value_storage.h"
+	"mongo/util/mongoutils/str.h"
+	"mongo/util/net/hostandport.h"
+	"mongo/util/net/operation.h"
+	"mongo/util/net/sock.h"
+
+1421254535 /root/mongo-client-install/include/mongo/base/encoded_value_storage.h
+	<cstring>
+	"mongo/base/data_view.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/net/hostandport.h
+	<iosfwd>
+	<string>
+	"mongo/bson/util/builder.h"
+	"mongo/platform/hash_namespace.h"
+
+1421254535 /root/mongo-client-install/include/mongo/platform/hash_namespace.h
+	<new>
+	<functional>
+	<functional>
+	<tr1/functional>
+	<tr1/functional>
+
+1421254535 /root/mongo-client-install/include/mongo/util/net/sock.h
+	"mongo/config.h"
+	<stdio.h>
+	<sys/socket.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/un.h>
+	<errno.h>
+	<sys/uio.h>
+	<boost/scoped_ptr.hpp>
+	<string>
+	<utility>
+	<vector>
+	"mongo/base/disallow_copying.h"
+	"mongo/logger/log_severity.h"
+	"mongo/platform/compiler.h"
+	"mongo/platform/cstdint.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/util/net/message_port.h
+	"mongo/config.h"
+	<boost/shared_ptr.hpp>
+	<boost/utility.hpp>
+	<vector>
+	"mongo/util/net/message.h"
+	"mongo/util/net/sock.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/dbclientcursor.h
+	<stack>
+	"mongo/client/dbclientinterface.h"
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/db/json.h"
+	"mongo/util/net/message.h"
+
+1421254535 /root/mongo-client-install/include/mongo/db/json.h
+	<string>
+	"mongo/bson/bsonobj.h"
+	"mongo/base/status.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/gridfs.h
+	"boost/scoped_array.hpp"
+	"mongo/bson/bsonelement.h"
+	"mongo/bson/bsonobj.h"
+	"mongo/client/dbclientinterface.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/init.h
+	"mongo/base/status.h"
+	"mongo/client/export_macros.h"
+	"mongo/client/options.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/options.h
+	<string>
+	"mongo/client/export_macros.h"
+	"mongo/logger/log_domain.h"
+	"mongo/logger/message_log_domain.h"
+	"mongo/stdx/functional.h"
+
+1421254535 /root/mongo-client-install/include/mongo/client/sasl_client_authenticate.h
+	"mongo/base/status.h"
+	"mongo/bson/bsontypes.h"
+	"mongo/client/dbclientinterface.h"
+	"mongo/client/export_macros.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/interface.h
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/coordinates.h"
+	"mongo/geo/coordinates2d.h"
+	"mongo/geo/coordinates2dgeographic.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geometrycollection.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/linestring.h"
+	"mongo/geo/multilinestring.h"
+	"mongo/geo/multipoint.h"
+	"mongo/geo/multipolygon.h"
+	"mongo/geo/namespaces.h"
+	"mongo/geo/parser.h"
+	"mongo/geo/point.h"
+	"mongo/geo/polygon.h"
+	"mongo/geo/queryutils.h"
+	"mongo/geo/parser-impl.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/boundingbox.h
+	<vector>
+	"mongo/db/jsobj.h"
+	"mongo/geo/constants.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/constants.h
+
+1421254535 /root/mongo-client-install/include/mongo/geo/coordinates.h
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/coordinates2d.h
+	<utility>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/coordinates.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/coordinates2dgeographic.h
+	<utility>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/coordinates.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/geometry.h
+	<algorithm>
+	<limits>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geoobj.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/geoobj.h
+	<string>
+	<vector>
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/geometrycollection.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/parser.h"
+	"mongo/util/assert_util.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/parser.h
+	"mongo/base/string_data.h"
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geoobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/linestring.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/point.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/point.h
+	<algorithm>
+	<boost/scoped_ptr.hpp>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/multilinestring.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/multipoint.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/multipolygon.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+	"mongo/geo/polygon.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/polygon.h
+	<boost/scoped_ptr.hpp>
+	<vector>
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/linestring.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/namespaces.h
+	"mongo/geo/coordinates2d.h"
+	"mongo/geo/coordinates2dgeographic.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/coordinates.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/geometrycollection.h"
+	"mongo/geo/linestring.h"
+	"mongo/geo/multilinestring.h"
+	"mongo/geo/multipoint.h"
+	"mongo/geo/multipolygon.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+	"mongo/geo/polygon.h"
+	"mongo/geo/parser.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/queryutils.h
+	"mongo/client/export_macros.h"
+	"mongo/db/jsobj.h"
+	"mongo/geo/boundingbox.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geoobj.h"
+
+1421254535 /root/mongo-client-install/include/mongo/geo/parser-impl.h
+	"mongo/base/string_data.h"
+	"mongo/geo/constants.h"
+	"mongo/geo/geometry.h"
+	"mongo/geo/linestring.h"
+	"mongo/geo/multilinestring.h"
+	"mongo/geo/multipoint.h"
+	"mongo/geo/multipolygon.h"
+	"mongo/geo/geoobj.h"
+	"mongo/geo/point.h"
+	"mongo/geo/polygon.h"
+	"mongo/geo/parser.h"
+	"mongo/util/assert_util.h"
+
+1421308010 /root/mongo-client-install/include/mongo/version.h
+
+1421254535 /root/mongo-client-install/include/mongo/client/undef_macros.h
+
+1421746529 source:/root/svn/trunk/src/bserver/src/group_responser.cpp
+	"group_responser.h"
+	<vector>
+	<map>
+	<exception>
+	"mongo_client.h"
+	"session_task.h"
+
+1421746540 /root/svn/trunk/src/bserver/include/group_responser.h
+	"task_responser.h"
+	"proto/ServicePacket.pb.h"
+
+1421805167 source:/root/svn/trunk/src/bserver/src/group_service_request_responser.cpp
+	"group_service_request_responser.h"
+
+1421805306 /root/svn/trunk/src/bserver/include/group_service_request_responser.h
+	"task_responser.h"
+	"group_responser.h"
+	"../proto/connect_server.pb.h"
+	"../proto/ServicePacket.pb.h"
+
+1421725565 source:/root/svn/trunk/src/mongo_client/mongo_client.cpp
+	"mongo_client.h"
+	<sys/types.h>
+	<time.h>
+	<exception>
+	<sstream>
+	"mongo/db/json.h"
+	"mongo/util/net/hostandport.h"
+	"mongo/util/assert_util.h"
+	"mongo/bson/bsonobjbuilder.h"
+	"mongo/client/dbclientinterface.h"
+
+1421804791 /root/svn/trunk/src/bserver/src/group_service_request_responser.cpp
+	"group_service_request_responser.h"
+	"../proto/connect_server.pb.h"
+	"../proto/ServicePacket.pb.h"
+

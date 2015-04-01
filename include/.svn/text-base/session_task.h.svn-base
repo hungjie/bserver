@@ -1,0 +1,110 @@
+#ifndef SESSION_TASK_H
+#define SESSION_TASK_H
+
+#include <deque>
+#include <string>
+
+#include <boost/thread/mutex.hpp>
+#include <boost/serialization/singleton.hpp>
+
+#include "message_format.h"
+#include "peer_handle_map.h"
+
+#include "configwrap.h"
+#include "log.h"
+
+#include "msgbox.h"
+
+namespace push_logic
+{
+
+class session_task
+{
+    public:
+        //typedef struct sigaction sigactionclass;
+        session_task();
+        virtual ~session_task();
+
+        void work();
+
+        void push(message_format const& mf);
+
+        void get_session(std::string const& cid, std::map<std::string, meet_you::Sess> & sesss)
+        {
+            //sess_chache_->get_session(cid, sesss);
+            sess_cache_->get_session(cid, sesss);
+        }
+
+        int mb_add_msg(std::string const& name, meet_you::msg & msg)
+        {
+            return mb_adapter_.mb_add_msg(*db_group_.get(), name, msg);
+        }
+
+        int mb_get_msgs(const std::string &mbname, const meet_you::int64 bmsgid, int length, std::vector<meet_you::msg> & msgs)
+        {
+            return mb_adapter_.mb_get_msgs(*db_group_.get(), mbname, bmsgid, length, msgs, meet_you::DIRECT_FORWARD);
+        }
+
+        int mb_del_msg(const std::string &mbname, const meet_you::int64 msgid)
+        {
+            return mb_adapter_.mb_del_msg(*db_group_.get(), mbname, msgid);
+        }
+
+        int mb_get_msg_id(const std::string &mbname, std::string const& user_key, meet_you::int64 & recent_read_id)
+        {
+            return meet_you::mb_get_msg_id(*db_group_.get(), mbname + user_key, recent_read_id);
+        }
+
+        int mb_set_msg_id(const std::string &mbname, std::string const& user_key, meet_you::int64 recent_read_id, std::string const& option)
+        {
+            return meet_you::mb_set_msg_id(*db_group_.get(), mbname + user_key, recent_read_id, option);
+        }
+
+        int mb_size_from(const std::string &mbname, meet_you::int64 msgid)
+        {
+            return mb_adapter_.mb_size_from(*db_group_.get(), mbname, msgid);
+        }
+
+        int mb_del_msgs(const std::string &mbname, meet_you::int64 msgid)
+        {
+            return mb_adapter_.mb_del_msgs(*db_group_.get(), mbname, msgid);
+        }
+
+        int mb_incr_id(const std::string & mbname, meet_you::int64 & msgid)
+        {
+            return meet_you::mb_incr_id(*db_group_.get(), mbname, msgid);
+        }
+
+        void notifiy_all();
+        void stop(){stop_ = true;}
+
+    protected:
+        bool try_pop(std::string & data, meet_you::head & h, std::string & id);
+        void wait_and_pop(std::string & data, meet_you::head & h, std::string & id);
+
+        void do_work(std::string const& id, meet_you::head const& h, const std::string & data);
+
+        void init_cache_map();
+
+    private:
+        std::deque<message_format> deque_;
+        boost::mutex mutex_;
+        boost::mutex mutex_count_;
+
+        boost::condition_variable condition_;
+
+        //boost::thread_specific_ptr<meet_you::sess_cache> sess_chache_;
+        //boost::thread_specific_ptr<meet_you::cache_group_new> message_cache_;
+        boost::thread_specific_ptr<meet_you::SessCache> sess_cache_;
+        boost::thread_specific_ptr<meet_you::DBGroup> db_group_;
+
+        int64_t count_;
+        bool stop_;
+        meet_you::mb_adaptor mb_adapter_;
+};
+
+typedef boost::serialization::singleton<session_task> __SESSION_TASK;
+
+}
+
+#endif // SESSION_TASK_H

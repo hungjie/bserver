@@ -1,0 +1,26 @@
+#include "wp_push_responser.h"
+
+namespace push_logic
+{
+
+wp_push_responser::wp_push_responser()
+{
+    //ctor
+}
+
+wp_push_responser::~wp_push_responser()
+{
+    //dtor
+}
+
+int wp_push_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+
+}
+
+std::string wp_push_responser::parser(std::string const& data)
+{
+
+}
+
+}

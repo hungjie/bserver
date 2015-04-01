@@ -1,0 +1,203 @@
+#include <boost/thread.hpp>
+
+#include "push_responser.h"
+
+#include "configwrap.h"
+
+#include "peer_handle_map.h"
+
+#include "log.h"
+
+#include "session_task.h"
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+push_responser::push_responser()
+{
+    //ctor
+}
+
+push_responser::~push_responser()
+{
+    //dtor
+}
+
+std::string push_responser::parser(std::string const& data)
+{
+    PushPacket pp;
+    bool status = pp.ParseFromString(data);
+
+    if(!status)
+    {
+        PUSHLOG_WARN("push responser parser error, pushpacket faild");
+        return "";
+    }
+
+    PushPacket r_pp;
+
+    std::string out;
+
+    if(pp.type() == 10)
+    {
+        r_pp.set_type(11);
+
+        PushRequest pr = pp.push_req();
+        PushResponse* prp = r_pp.mutable_push_resp();
+        prp->set_cid(pr.cid());
+        prp->set_type(pr.type());
+        prp->set_msgid(pr.msgid());
+
+        this->cid_ = pr.cid();
+
+        if( pr.has_data() )
+        {
+            PUSHLOG_TRACE("get client data:" + pr.data());
+        }
+    }
+    else if(pp.type() == 12)
+    {
+        r_pp.set_type(13);
+
+        PushCacheRequest pcr = pp.push_cache_request();
+        PushCacheResponse* pcrp = r_pp.mutable_push_cache_response();
+
+        pcrp->set_cid(pcr.cid());
+
+        std::stringstream ss;
+        std::stringstream ss_type;
+        ss_type << "type:"<< pcr.type();
+        std::stringstream ss_start_msgid;
+        ss_start_msgid << "start_msgid:" << pcr.start_msgid();
+        std::stringstream ss_size;
+        ss_size << "size:" << pcr.size();
+        ss << "pushcacherequest info " << RFORMATE(ss_type.str()) << RFORMATE(ss_start_msgid.str()) << RFORMATE(ss_size.str()) ;
+        PUSHLOG_DEBUG(ss.str());
+
+        init_cache_message(pcr.type(), pcr.cid(), pcr.start_msgid(), pcr.size(), pcrp);
+    }
+
+    r_pp.SerializeToString(&out);
+
+    return out;
+}
+
+void push_responser::init_cache_message(std::string const& type, std::string const& cid, meet_you::int64 start_msg_id, int expect_size, PushCacheResponse* pcrp)
+{
+    //todo get cache message
+    std::vector<meet_you::msg> msgs;
+    meet_you::int64 before_msgid = start_msg_id;
+    int status = this->get_msg_unread(cid+"__"+type, start_msg_id, expect_size, msgs);
+
+    std::stringstream ss;
+    std::stringstream ssbefore;
+    ssbefore << " before msgid:" << before_msgid;
+    std::stringstream ss_start_msgid;
+    ss_start_msgid << "start_msg_id:" << start_msg_id;
+    std::stringstream ss_expect_size;
+    ss_expect_size << "expect_size:" << expect_size;
+    std::stringstream ss_msg_size;
+    ss_msg_size << "msgs size:" << msgs.size();
+    ss << "get_msg_unread " << RFORMATE("id:" + cid+"__"+type) << RFORMATE(ssbefore.str())
+        << RFORMATE(ss_start_msgid.str()) << RFORMATE(ss_expect_size.str()) << RFORMATE(ss_msg_size.str());
+
+    PUSHLOG_DEBUG(ss.str());
+
+    if(status < 0 && status != meet_you::CACHE_NOT_EXIST)
+    {
+        PUSHLOG_WARN("get msg cache unread error!");
+        return;
+    }
+
+    meet_you::int64 last_msg_id = start_msg_id;
+    for(size_t i = 0; i < msgs.size(); ++i)
+    {
+        PushMessage* pm = pcrp->add_msgs();
+        last_msg_id = msgs[i].id();
+
+        std::stringstream ss_tmp;
+        ss_tmp << "messagecache get msgid:" << last_msg_id ;
+        PUSHLOG_DEBUG(RFORMATE(ss_tmp.str()) + RFORMATE("id:" + cid+"__"+type));
+
+        pm->set_response_msgid(last_msg_id);
+        pm->set_data(msgs[i].data());
+    }
+
+    int size = __SESSION_TASK::get_mutable_instance().mb_size_from(cid+"__"+type, last_msg_id+1);
+
+    std::stringstream ss2;
+    std::stringstream ss_left_size;
+    ss_left_size << "left size:" << size;
+    std::stringstream ss_last_msgid;
+    ss_last_msgid << "last_msg_id:" << last_msg_id;
+    ss2 << "cache message " << RFORMATE(ss_last_msgid.str()) << RFORMATE(ss_left_size.str());
+    PUSHLOG_DEBUG(ss2.str());
+
+    if(size < 0)
+    {
+        size = 0;
+        PUSHLOG_WARN("mb_size_from error!");
+    }
+
+    pcrp->set_last_msgid(last_msg_id);
+    pcrp->set_left_size(size);
+}
+
+void push_responser::after_parser(meet_you::ServiceRequest& srp)
+{
+    /*
+    if(!this->cid_.empty())
+    {
+        //todo
+        std::map<std::string, meet_you::Sess> sesss;
+        std::map<std::string, meet_you::Sess>::iterator it;
+
+        //__CONFIGWRAP::get_mutable_instance().get_session(this->cid_, sesss);
+        __SESSION_TASK::get_mutable_instance().get_session(this->cid_, sesss);
+        //session_task::get_session(this->cid_, sesss);
+
+        for(it = sesss.begin(); it != sesss.end(); ++it)
+        {
+            srp.set_sessid(it->first);
+            std::string out;
+            srp.SerializeToString(&out);
+
+            message_format mf;
+
+            meet_you::head hh;
+            hh.cmd = 200;
+            hh.len = sizeof(hh) + out.size();
+            hh.magic = 0;
+
+            mf.encode_header(hh, out);
+            mf.body_combine();
+
+            std::string server_id = __CONFIGWRAP::get_mutable_instance().get_server_id(it->second.conn_sv_id);
+
+            if(!server_id.empty())
+            {
+                boost::shared_ptr<session_base> sb = __PEER_MAP::get_mutable_instance().get(server_id);
+
+                if(sb)
+                    sb->write(mf);
+            }
+            else
+            {
+                std::stringstream ss;
+                ss << "server id empty : conn_sv_id," << it->second.conn_sv_id;
+                PUSHLOG_WARN(ss.str());
+            }
+        }
+    }
+
+    */
+}
+
+int push_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    return 0;
+}
+
+}

@@ -1,0 +1,23 @@
+#ifndef WP_PUSH_RESPONSER_H
+#define WP_PUSH_RESPONSER_H
+
+#include "task_responser.h"
+
+namespace push_logic
+{
+
+class wp_push_responser : public task_responser
+{
+    public:
+        wp_push_responser();
+        virtual ~wp_push_responser();
+
+        virtual int response(std::string const& id, meet_you::head const& h, std::string const& data);
+        virtual std::string parser(std::string const& data);
+    protected:
+    private:
+};
+
+}
+
+#endif // WP_PUSH_RESPONSER_H

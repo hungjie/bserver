@@ -1,0 +1,95 @@
+#include "service_responser.h"
+
+#include <boost/make_shared.hpp>
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+#include "push_responser.h"
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+
+service_responser::service_responser()
+{
+    //ctor
+}
+
+service_responser::~service_responser()
+{
+    //dtor
+}
+
+int service_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    //task_responser::response(id, h, data);
+    message_format mf;
+    meet_you::head hh = h;
+    hh.cmd++;
+    mf.encode_header(hh, data);
+    mf.body_combine();
+
+    fix_dispatch_to_server(id, mf);
+
+    return 0;
+}
+
+std::string service_responser::parser(std::string const& data)
+{
+    ServiceRequest sr;
+    ServiceResponse srp;
+
+    srp.set_status(-1);
+
+    if( sr.ParseFromString( data ) )
+    {
+        srp.set_sessid(sr.sessid());
+        srp.set_service_type(sr.service_type());
+        srp.set_sn(sr.sn());
+
+        int service_type = sr.service_type();
+
+        boost::shared_ptr<task_responser> task;
+
+        std::stringstream ss;
+        std::stringstream ss_service_type;
+        ss_service_type << "service_type:" << sr.service_type() ;
+        std::stringstream ss_sn;
+        ss_sn << "sn:" << sr.sn();
+        ss << RFORMATE("service receve session:" + sr.sessid()) << RFORMATE(ss_service_type.str()) << RFORMATE(ss_sn.str());
+        PUSHLOG_DEBUG(ss.str());
+
+        if(service_type == 100)//push
+        {
+            task = boost::make_shared<push_responser>();
+        }
+
+        std::string p_data;
+
+        if(sr.has_payload())
+        {
+            p_data = task->parser(sr.payload());
+            task->after_parser(sr);
+        }
+
+        if(!p_data.empty())
+        {
+            srp.set_status(0);
+            srp.set_payload(p_data);
+        }
+    }
+    else
+    {
+        PUSHLOG_WARN("ServiceRequest parse error data");
+    }
+
+    std::string out;
+    srp.SerializeToString(&out);
+
+    return out;
+}
+
+}

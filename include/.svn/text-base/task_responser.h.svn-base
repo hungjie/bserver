@@ -1,0 +1,44 @@
+#ifndef TASK_RESPONSE_H
+#define TASK_RESPONSE_H
+
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/serialization/singleton.hpp>
+
+#include "message_format.h"
+
+#include "../proto/connect_server.pb.h"
+#include "session_task.h"
+
+namespace push_logic
+{
+
+class task_responser
+{
+public:
+    task_responser();
+    virtual ~task_responser();
+
+    virtual int response(std::string const& id, meet_you::head const& h, std::string const& data);
+    virtual std::string parser(std::string const& data);
+
+    virtual void after_parser(meet_you::ServiceRequest& srp) {}
+
+protected:
+    bool Base64Encode(const std::string& input, std::string& output);
+    bool Base64Decode(const std::string& input, std::string& output);
+
+    void dispatch_to_server(std::string const& server_id, message_format const& mf);
+    void fix_dispatch_to_server(std::string const& server_id, message_format const& mf);
+    void dispatch_to_client(std::string const& server_id, message_format const& mf);
+
+    int get_msg_unread(std::string const& name, meet_you::int64 & bmsgid, int length, std::vector<meet_you::msg> & msgs);
+    int add_msg(std::string const& name, meet_you::msg & msg);
+
+    meet_you::int64 msgid_;
+private:
+};
+
+}
+
+#endif // TASK_RESPONSE_H

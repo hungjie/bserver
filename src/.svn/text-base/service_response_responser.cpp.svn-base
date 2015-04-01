@@ -1,0 +1,60 @@
+#include "service_response_responser.h"
+
+#include "push_response_responser.h"
+
+#include "log.h"
+
+#include "../proto/connect_server.pb.h"
+#include "../proto/push_server.pb.h"
+
+using namespace meet_you;
+
+namespace push_logic
+{
+
+
+service_response_responser::service_response_responser()
+{
+}
+
+service_response_responser::~service_response_responser()
+{
+}
+
+
+int service_response_responser::response(std::string const& id, meet_you::head const& h, std::string const& data)
+{
+    return 0;
+}
+
+std::string service_response_responser::parser(std::string const& data)
+{
+    ServiceRequest sr;
+    ServiceResponse srp;
+
+    if( srp.ParseFromString( data ) )
+    {
+        std::stringstream ss;
+        std::stringstream ss_type;
+        ss_type << "service_type:" << srp.service_type();
+        std::stringstream ss_sn;
+        ss_sn << "sn:" << srp.sn();
+        ss << RFORMATE("service response responser:" + srp.sessid() ) << RFORMATE(ss_type.str()) << RFORMATE(ss_sn.str()) ;
+        PUSHLOG_INFO(ss.str());
+
+        int service_type = srp.service_type();
+
+        if(service_type == 100)
+        {
+            if(srp.has_payload())
+            {
+                push_response_responser prr;
+                prr.parser(srp.payload());
+            }
+        }
+    }
+
+    return "";
+}
+
+}

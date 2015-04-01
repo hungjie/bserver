@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="bserver" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/bserver" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="httpclient" />
+					<Add directory="include" />
+					<Add directory="embeded_python" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/bserver" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="httpclient" />
+					<Add directory="include" />
+					<Add directory="embeded_python" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="group_logic_server">
+				<Option output="bserver" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="mongo_client">
+				<Option output="bin/mongo_client/bserver" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/mongo_client/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="${#boost.include}" />
+			<Add directory="${#proto.include}" />
+			<Add directory="${#log4cpp.include}" />
+			<Add directory="include" />
+			<Add directory="../common" />
+			<Add directory="../cache_group" />
+			<Add directory="../cache_group_new" />
+			<Add directory="/usr/local/lib" />
+			<Add directory="/root/tool/ffpython" />
+			<Add directory="/usr/include/python2.6" />
+			<Add directory="../bserver" />
+			<Add directory="../mongo_client" />
+			<Add directory="../../../../mongo-client-install/include" />
+		</Compiler>
+		<Linker>
+			<Add library="mongo_client" />
+			<Add library="mongoclient" />
+			<Add library="boost_regex" />
+			<Add library="boost_system" />
+			<Add library="boost_thread" />
+			<Add library="boost_filesystem" />
+			<Add library="protobuf" />
+			<Add library="liblog4cplus" />
+			<Add library="json_linux-gcc-4.4.7_libmt" />
+			<Add library="uuid" />
+			<Add library="hiredis" />
+			<Add library="zookeeper_mt" />
+			<Add library="cachegroup" />
+			<Add library="cachegroupnew" />
+			<Add library="efnfw" />
+			<Add library="curl" />
+			<Add library="python2.6" />
+			<Add directory="${#boost.lib}" />
+			<Add directory="${#proto.lib}" />
+			<Add directory="${#log4cpp.lib}" />
+			<Add directory="/root/tool/jsoncpp-src-0.5.0/libs/linux-gcc-4.4.7" />
+			<Add directory="../common/lib" />
+			<Add directory="../cache_group/lib" />
+			<Add directory="../cache_group_new/lib" />
+			<Add directory="../../../../mongo-client-install/lib" />
+			<Add directory="../mongo_client/lib" />
+		</Linker>
+		<Unit filename="embeded_python/python_call_base.cpp" />
+		<Unit filename="embeded_python/python_call_base.h" />
+		<Unit filename="embeded_python/python_func_service_responser.cpp" />
+		<Unit filename="embeded_python/python_func_service_responser.h" />
+		<Unit filename="embeded_python/python_status_ensure.cpp" />
+		<Unit filename="embeded_python/python_status_ensure.h" />
+		<Unit filename="httpclient/curl_base.cpp" />
+		<Unit filename="httpclient/curl_base.h" />
+		<Unit filename="httpclient/server_service_response_responser.cpp" />
+		<Unit filename="httpclient/server_service_response_responser.h" />
+		<Unit filename="httpclient/server_service_responser.cpp" />
+		<Unit filename="httpclient/server_service_responser.h" />
+		<Unit filename="httpclient/service_package_busy_responser.cpp" />
+		<Unit filename="httpclient/service_package_busy_responser.h" />
+		<Unit filename="httpclient/service_package_responser.cpp" />
+		<Unit filename="httpclient/service_package_responser.h" />
+		<Unit filename="include/client_session.h" />
+		<Unit filename="include/configwrap.h" />
+		<Unit filename="include/group_responser.h" />
+		<Unit filename="include/group_service_request_responser.h" />
+		<Unit filename="include/heart_task_thread.h" />
+		<Unit filename="include/io_service_provide.h" />
+		<Unit filename="include/json/autolink.h" />
+		<Unit filename="include/json/config.h" />
+		<Unit filename="include/json/features.h" />
+		<Unit filename="include/json/forwards.h" />
+		<Unit filename="include/json/json.h" />
+		<Unit filename="include/json/reader.h" />
+		<Unit filename="include/json/value.h" />
+		<Unit filename="include/json/writer.h" />
+		<Unit filename="include/json_parser.h" />
+		<Unit filename="include/json_push_packet.h" />
+		<Unit filename="include/log.h" />
+		<Unit filename="include/logic_deal_processing.h" />
+		<Unit filename="include/message_format.h" />
+		<Unit filename="include/msg_head.h" />
+		<Unit filename="include/peer_base.h" />
+		<Unit filename="include/peer_handle_client.h" />
+		<Unit filename="include/peer_handle_map.h" />
+		<Unit filename="include/peer_handle_server.h" />
+		<Unit filename="include/server_session.h" />
+		<Unit filename="include/service_request_json_data.h" />
+		<Unit filename="include/service_response_result.h" />
+		<Unit filename="include/session_base.h" />
+		<Unit filename="include/session_task.h" />
+		<Unit filename="include/system_tool.h" />
+		<Unit filename="include/task_base.h" />
+		<Unit filename="include/task_responser.h" />
+		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="mongo_client" />
+		</Unit>
+		<Unit filename="proto/ServicePacket.pb.cc" />
+		<Unit filename="proto/ServicePacket.pb.h" />
+		<Unit filename="proto/connect_server.pb.cc" />
+		<Unit filename="proto/connect_server.pb.h" />
+		<Unit filename="src/client_session.cpp" />
+		<Unit filename="src/configwrap.cpp" />
+		<Unit filename="src/group_responser.cpp" />
+		<Unit filename="src/group_service_request_responser.cpp" />
+		<Unit filename="src/heart_task_thread.cpp" />
+		<Unit filename="src/json_parser.cpp" />
+		<Unit filename="src/json_push_packet.cpp" />
+		<Unit filename="src/log.cpp" />
+		<Unit filename="src/logic_deal_processing.cpp" />
+		<Unit filename="src/message_format.cpp" />
+		<Unit filename="src/peer_base.cpp" />
+		<Unit filename="src/peer_handle_client.cpp" />
+		<Unit filename="src/peer_handle_map.cpp" />
+		<Unit filename="src/peer_handle_server.cpp" />
+		<Unit filename="src/server_session.cpp" />
+		<Unit filename="src/service_request_json_data.cpp" />
+		<Unit filename="src/service_response_result.cpp" />
+		<Unit filename="src/session_base.cpp" />
+		<Unit filename="src/session_task.cpp" />
+		<Unit filename="src/task_base.cpp" />
+		<Unit filename="src/task_responser.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

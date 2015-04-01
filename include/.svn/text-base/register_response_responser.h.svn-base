@@ -1,0 +1,24 @@
+#ifndef REGISTER_RESPONSE_RESPONSER_H
+#define REGISTER_RESPONSE_RESPONSER_H
+
+
+#include "task_responser.h"
+
+namespace push_logic
+{
+
+class register_response_responser : public task_responser
+{
+    public:
+        register_response_responser();
+        virtual ~register_response_responser();
+
+        virtual std::string parser(std::string const& data);
+        virtual int response(std::string const& id, meet_you::head const& h, std::string const& data);
+    protected:
+    private:
+};
+
+}
+
+#endif // REGISTER_RESPONSE_RESPONSER_H
